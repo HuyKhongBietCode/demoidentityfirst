@@ -1,0 +1,67 @@
+﻿@page
+@using DemoIdentityEntityFramework.Models;
+@model DemoIdentityEntityFramework.Pages.Blog.IndexModel
+
+@{
+    ViewData["Title"] = "Danh sách blog";
+    int count = 0;
+}
+
+<h1>Danh Sách Blog</h1>
+<div class="container-fluid ">
+    <form method="get" asp-page="./Index">
+        <div class="group-form col-10">
+            <lable>Nhập Title : </lable>
+            <input class="form-control" type="text" name="SearchString" placeholder="Nhập Vào Đây ..." />
+
+        </div>
+        <button class="bg-success col-2" type="submit">Tìm Kiếm</button>
+    </form>
+</div>
+@{
+    var pagingModel = new PagingModel()
+            {
+                currentpage = Model.currentpage,
+                totalpage = Model.totalpage,
+                generaterUrl = (int? p) => Url.Page("/Blog/Index", new { p = p}) 
+            };
+}
+<partial name="_Paging" model="@pagingModel"/>
+<p>
+    <a asp-page="Create">Tạo Mới Blog</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>STT</th>
+            <th>
+                @Html.DisplayNameFor(model => model.Article[0].Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Article[0].Created)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Article)
+        {
+            count++;
+            <tr>
+                <td>@count</td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Created)
+                </td>
+
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.ID">Chỉnh Sửa</a> |
+                    <a asp-page="./Details" asp-route-id="@item.ID">Chi Tiết</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.ID">Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
