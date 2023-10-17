@@ -1,0 +1,19 @@
+﻿@page
+@model IndexModel
+@using DemoIdentityEntityFramework.Models;
+@{
+    ViewData["Title"] = "Home page";
+    var posts = ViewData["posts"] as List<Article>;
+    int count = 0;
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+@foreach(var article in posts)
+{
+    count++;
+    <h3 class="text-danger"> @count. @article.Title</h3>
+}
+
